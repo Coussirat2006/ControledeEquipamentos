@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle de Equipamentos</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Estilos extras para a tela de login */
+      #loginScreen {
+        display: flex; align-items: center; justify-content: center; height: 100vh; background: #f4f4f5;
+      }
+      .login-box {
+        background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); text-align: center; max-width: 400px; width: 100%;
+      }
+      .login-box h2 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+      .login-box p { color: #71717a; margin-bottom: 1.5rem; font-size: 0.9rem; }
+      .login-box input { width: 100%; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #e4e4e7; border-radius: 6px; font-size: 1rem; }
+      .login-box button { width: 100%; padding: 0.75rem; margin-bottom: 1rem; }
+      .login-box .toggle-link { color: #2563eb; cursor: pointer; font-size: 0.9rem; text-decoration: underline; }
+      #appScreen { display: none; }
+      .user-badge { background: rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 99px; font-size: 0.85rem; font-weight: 600; margin-right: 12px; color: white; border: 1px solid rgba(255,255,255,0.4); }
+    </style>
+  </head>
+  <body>
+    
+    <!-- TELA DE LOGIN / CADASTRO -->
+    <div id="loginScreen">
+      <div class="login-box">
+        <h2>Controle Patrimonial</h2>
+        
+        <!-- Formulário de Entrada -->
+        <div id="formLogin">
+          <p>Acesse sua conta para continuar</p>
+          <input type="text" id="loginUsername" placeholder="Usuário (Ex: admin)" autocomplete="off" />
+          <input type="password" id="loginPassword" placeholder="Senha" />
+          <button class="button primary" onclick="realizarLogin()">Entrar</button>
+          <span class="toggle-link" onclick="toggleAuthMode('register')">Sou técnico e não tenho conta</span>
+        </div>
+
+        <!-- Formulário de Cadastro de Técnico -->
+        <div id="formRegister" style="display: none;">
+          <p>Crie sua conta de Técnico</p>
+          <input type="text" id="regName" placeholder="Seu nome completo" autocomplete="off" />
+          <input type="text" id="regUsername" placeholder="Nome de usuário para login" autocomplete="off" />
+          <input type="password" id="regPassword" placeholder="Crie uma senha" />
+          <button class="button primary" onclick="criarContaTecnico()">Cadastrar Técnico</button>
+          <span class="toggle-link" onclick="toggleAuthMode('login')">Já tenho conta, fazer login</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SISTEMA PRINCIPAL -->
+    <main class="app-shell" id="appScreen">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Controle patrimonial</p>
+          <h1>Entrada e saída de equipamentos</h1>
+        </div>
+        <div class="topbar-actions">
+          <span class="user-badge" id="loggedUserInfo"></span>
+          <button class="button ghost" type="button" onclick="fazerLogout()">Sair</button>
+          <button class="button primary" id="newRecordBtn" type="button" title="Limpar formulário">
+            <span aria-hidden="true">+</span> Novo
+          </button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="Resumo dos registros">
+        <article class="metric"><span>Total</span><strong id="totalCount">0</strong></article>
+        <article class="metric in-use"><span>Em uso</span><strong id="activeCount">0</strong></article>
+        <article class="metric returned"><span>Devolvidos</span><strong id="returnedCount">0</strong></article>
+      </section>
+
+      <section class="workspace">
+        <form class="form-panel" id="movementForm">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Registro</p>
+              <h2 id="formTitle">Nova retirada</h2>
+            </div>
+            <span class="mode-pill" id="formMode">Criando</span>
+          </div>
+
+          <input type="hidden" id="recordId" />
+
+          <div class="form-grid">
+            <label>
+              Tipo de Equipamento
+              <select id="equipmentType" name="equipmentType" required>
+                <option value="">Selecione...</option>
+                <option value="NUC">NUC</option>
+                <option value="Controladora">Controladora</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </label>
+            <label>
+              ID do Equipamento
+              <input id="equipmentId" name="equipmentId" type="text" placeholder="Ex: NUC-001" />
+            </label>
+            
+            <!-- CAMPO DE DESTINO ATUALIZADO -->
+            <label>
+              Destino do Equipamento
+              <select id="department" name="department" required>
+                <option value="">Selecione...</option>
+                <option value="Varejo">Varejo</option>
+                <option value="Corporativo">Corporativo</option>
+              </select>
+            </label>
+            <!-- FIM DO CAMPO ATUALIZADO -->
+
+            <label>
+              Data e hora da retirada
+              <input id="checkoutAt" name="checkoutAt" type="datetime-local" required />
+            </label>
+            <label>
+              Status
+              <select id="status" name="status">
+                <option value="em_uso">Em uso</option>
+                <option value="devolvido">Devolvido</option>
+              </select>
+            </label>
+          </div>
+
+          <label>Observações da retirada
+            <textarea id="notes" name="notes" rows="2" placeholder="Motivo da retirada, local exato..."></textarea>
+          </label>
+
+          <fieldset class="return-box" id="returnFields">
+            <legend>Dados da devolução</legend>
+            <div class="form-grid">
+              <label>Data e hora <input id="returnAt" name="returnAt" type="datetime-local" /></label>
+              <label>Condição
+                <select id="returnCondition" name="returnCondition">
+                  <option value="">Selecione</option>
+                  <option value="OK">OK - Funcionando</option>
+                  <option value="Defeito">Com Defeito</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="button primary" type="submit">Salvar registro</button>
+            <button class="button secondary" id="resetBtn" type="button">Limpar</button>
+          </div>
+        </form>
+
+        <section class="records-panel">
+          <div class="panel-heading list-heading">
+            <div>
+              <p class="eyebrow">Movimentações</p>
+              <h2>Registros</h2>
+            </div>
+            <div class="filters">
+              <select id="statusFilter" title="Filtrar por status">
+                <option value="todos">Todos</option>
+                <option value="em_uso">Em uso</option>
+                <option value="devolvido">Devolvidos</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Equipamento</th>
+                  <th>Técnico</th>
+                  <th>Retirada</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="recordsBody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState">
+              <strong>Nenhum registro encontrado</strong>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="actionTemplate">
+      <div class="row-actions">
+        <button class="icon-button return-action" type="button" title="Devolver">↵</button>
+        <button class="icon-button edit-action" type="button" title="Editar">✎</button>
+        <button class="icon-button delete-action danger" type="button" title="Excluir">×</button>
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

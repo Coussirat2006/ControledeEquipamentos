@@ -1,0 +1,397 @@
+/* =========================================
+   VARIÁVEIS DE CORES (Baseadas na paleta)
+========================================= */
+:root {
+  --color-pink: #FE3176;
+  --color-red: #F40639;
+  --color-black: #000000;
+  --color-dark: #333333;
+  --color-white: #FFFFFF;
+  
+  --bg-app: #f4f4f5; 
+  --border-light: #e4e4e7;
+}
+
+/* =========================================
+   RESETS E BASE
+========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--color-dark);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   TELA DE LOGIN
+========================================= */
+#loginScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* Mudamos o fundo para um gradiente rosa/vermelho bem moderno */
+  background-color: var(--color-pink);
+  background-image: linear-gradient(135deg, var(--color-pink) 0%, var(--color-red) 100%);
+}
+
+.login-box {
+  background: var(--color-white);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-box h2 {
+  color: var(--color-black);
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.login-box p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.login-box input {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.toggle-link {
+  color: var(--color-red);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.toggle-link:hover {
+  color: var(--color-pink);
+  text-decoration: underline;
+}
+
+/* =========================================
+   CABEÇALHO (TOPBAR)
+========================================= */
+.topbar {
+  /* Substituímos o Preto pelo Rosa */
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(254, 49, 118, 0.3);
+}
+
+.topbar .eyebrow {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* Texto de apoio alterado para Branco para contrastar com o fundo Rosa */
+  color: var(--color-white);
+  opacity: 0.8;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.topbar h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* =========================================
+   MÉTRICAS
+========================================= */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.metric {
+  background: var(--color-white);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 5px solid var(--color-dark);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.metric.in-use { border-left-color: var(--color-pink); }
+.metric.returned { border-left-color: var(--color-black); }
+
+.metric span {
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.metric strong {
+  font-size: 2.5rem;
+  color: var(--color-black);
+  margin-top: 0.5rem;
+  line-height: 1;
+}
+
+/* =========================================
+   ÁREA DE TRABALHO E PAINÉIS
+========================================= */
+.workspace {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  padding: 0 2rem 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.form-panel, .records-panel {
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid var(--border-light);
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.panel-heading .eyebrow {
+  color: var(--color-pink);
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.panel-heading h2 {
+  color: var(--color-black);
+  font-size: 1.25rem;
+}
+
+/* =========================================
+   FORMULÁRIOS
+========================================= */
+.form-grid {
+  display: grid;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+input, select, textarea {
+  padding: 0.65rem;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  transition: all 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-pink);
+  box-shadow: 0 0 0 3px rgba(254, 49, 118, 0.15);
+}
+
+input:disabled {
+  background-color: var(--bg-app);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.return-box {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 2px dashed var(--border-light);
+  border-radius: 8px;
+  display: none;
+}
+
+.return-box.is-visible {
+  display: block;
+  border-color: var(--color-pink);
+  background-color: #fafafa;
+}
+
+.return-box legend {
+  font-weight: bold;
+  color: var(--color-pink);
+  padding: 0 10px;
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.button.primary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.button.primary:hover {
+  background-color: var(--color-dark);
+  transform: translateY(-1px);
+}
+
+.button.secondary {
+  background-color: transparent;
+  color: var(--color-dark);
+  border: 1px solid var(--color-dark);
+}
+
+.button.secondary:hover {
+  background-color: var(--color-pink);
+  border-color: var(--color-pink);
+  color: var(--color-white);
+}
+
+.button.ghost {
+  background-color: transparent;
+  color: var(--color-white);
+  border: 1px solid transparent;
+}
+
+.button.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--color-white);
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  padding: 4px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.icon-button:hover {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+}
+
+.icon-button.danger:hover {
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
+
+/* =========================================
+   TABELA
+========================================= */
+.filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th {
+  /* Substituímos o Cinza Escuro pelo Rosa no cabeçalho da tabela */
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+th:first-child { border-top-left-radius: 8px; }
+th:last-child { border-top-right-radius: 8px; }
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background-color: #fafafa;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  display: none;
+}
